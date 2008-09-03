@@ -1,32 +1,54 @@
-= esortcode
+= eSortCode
 
-* FIX (url)
+The main project site is on Rubyforge[http://esortcode.rubyforge.org]
+and the source code is available at GitHub[http://github.com/geoffgarside/esortcode/tree/master].
 
 == DESCRIPTION:
 
-FIX (describe your package)
+This gem provides an interface to the
+eSortCode.com[http://www.esortcode.com] web service.
+
+=== eSortCode.com
+eSortCode.com[http://www.esortcode.com] is a pay-as-you-go
+Web Service that enables your website, intranet, extranet
+or desktop applications to validate and lookup UK Account
+and Branch Details in real-time.
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+This is complete rewrite of the esortcode gem, it might be
+a while before this version is up to the same level as the
+previous version.
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+  client = Esortcode::Client.new('USERNAME', 'LicenseID')
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+* HTTParty - http://httparty.rubyforge.org
+
+Documentation generation requires Mislavs[http://github.com/mislav]
+Hanna[http://github.com/mislav/hanna/tree/master] RDoc template.
+You can install this with
+
+  gem install mislav-hanna -s http://gems.github.com/
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+Use the normal method of installing gems
+
+  gem install esortcode
+
+to get development versions you can use the github gem
+
+  gem install geoffgarside-esortcode -s http://gems.github.com/
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2008 FIXME full name
+Copyright (c) 2008 Geoff Garside
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
