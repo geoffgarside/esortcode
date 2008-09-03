@@ -1,14 +1,14 @@
 require 'esortcode/version'
 
-AUTHOR = 'FIXME full name'  # can also be an array of Authors
-EMAIL = "FIXME email"
-DESCRIPTION = "description of gem"
-GEM_NAME = 'esortcode' # what ppl will type to install your gem
+AUTHOR      = 'Geoff Garside'  # can also be an array of Authors
+EMAIL       = 'ruby@geoffgarside.co.uk'
+DESCRIPTION = 'Ruby interface to eSortCode UK Account and Bank Branch validator'
+GEM_NAME    = 'esortcode' # what ppl will type to install your gem
 RUBYFORGE_PROJECT = 'esortcode' # The unix name for your project
-HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
+HOMEPATH    = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
 DOWNLOAD_PATH = "http://rubyforge.org/projects/#{RUBYFORGE_PROJECT}"
 EXTRA_DEPENDENCIES = [
-#  ['activesupport', '>= 1.3.1']
+  ['httparty', '>= 0.1.3']
 ]    # An array of rubygem dependencies [name, version]
 
 @config_file = "~/.rubyforge/user-config.yml"
