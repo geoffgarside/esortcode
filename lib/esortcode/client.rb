@@ -53,7 +53,7 @@ module Esortcode
     # the +account_number+ is not composed of only digits.
     def standardise_account(sort_code, account_number)
       validate_sort_code(sort_code)
-      unless account_number.match(/[0-9]+/)
+      unless account_number.match(/[0-9]{6,10}/)
         raise ValidationError, "#{account_number} is not valid."
       end
       
