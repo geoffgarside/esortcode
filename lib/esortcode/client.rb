@@ -48,14 +48,12 @@ module Esortcode
     # Standard (i.e. 8 digit) Account Numbers.
     # 
     # If either +sort_code+ or +account_number+ are invalid an exception will
-    # be raised, they are +InvalidSortcode+ and +ValidationError+
-    # respectively. The +ValidationError+ is raised in the case that
-    # the +account_number+ is not composed of only digits.
+    # be raised, they are +InvalidSortcode+ and +InvalidAccountNumber+
+    # respectively. The +InvalidAccountNumber+ is raised in the case that
+    # the +account_number+ is not 6 to 10 digits in length.
     def standardise_account(sort_code, account_number)
       validate_sort_code(sort_code)
-      unless account_number.match(/[0-9]{6,10}/)
-        raise ValidationError, "#{account_number} is not valid."
-      end
+      validate_account_number_flex(account_number)
       
       self.class.post('StandardiseAccount',
         { :sSortcode => sort_code,
@@ -67,10 +65,11 @@ module Esortcode
     # 
     # If either +sort_code+ or +account_number+ are invalid an exception will
     # be raised, they are +InvalidSortcode+ and +InvalidAccountNumber+
-    # respectively.
+    # respectively. The +InvalidAccountNumber+ is raised in the case that
+    # the +account_number+ is not 6 to 10 digits in length.
     def validate_account_get_branch_details(sort_code, account_number)
       validate_sort_code(sort_code)
-      validate_account_number(account_number)
+      validate_account_number_flex(account_number)
       
       self.class.post('ValidateAccountGetBranchDetails',
         { :sSortcode => sort_code,
@@ -96,6 +95,11 @@ module Esortcode
       end
       def validate_account_number(an)
         unless an.match(/^[0-9]{8}$/)
+          raise InvalidAccountNumber, "#{an} is not valid"
+        end
+      end
+      def validate_account_number_flex(an)
+        unless an.match(/^[0-9]{6,10}$/)
           raise InvalidAccountNumber, "#{an} is not valid"
         end
       end
