@@ -1,17 +1,24 @@
-h1. esortcode
+h1. eSortCode
 
-h1. &#x2192; 'esortcode'
+h1. &rarr; 'esortcode'
 
 
 h2. What
 
+An interface to the "eSortCode.com":http://www.esortcode.com UK bank and credit card
+validation service.
 
 h2. Installing
 
 <pre syntax="ruby">sudo gem install esortcode</pre>
 
+or for the development version
+
+<pre syntax="ruby">sudo gem install geoffgarside-esortcode -s http://gems.github.com/</pre>
+
 h2. The basics
 
+<pre syntax="ruby">client = Esortcode::Client.new('user', 'license_id')</pre>
 
 h2. Demonstration of usage
 
@@ -19,19 +26,12 @@ h2. Demonstration of usage
 
 h2. Forum
 
-"http://groups.google.com/group/esortcode":http://groups.google.com/group/esortcode
-
-TODO - create Google Group - esortcode
+No forum has been created yet, if you would like to get in contact please use either the
+email address listed for the gem or send me a private message through "GitHub":http://github.com/geoffgarside
 
 h2. How to submit patches
 
 Read the "8 steps for fixing other people's code":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/ and for section "8b: Submit patch to Google Groups":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/#8b-google-groups, use the Google Group above.
-
-TODO - pick SVN or Git instructions
-
-The trunk repository is <code>svn://rubyforge.org/var/svn/esortcode/trunk</code> for anonymous access.
-
-OOOORRRR
 
 You can fetch the source from either:
 
@@ -54,17 +54,9 @@ Or you can hack website/index.txt and make it all go away!!
 
 <% end %>
 
-* github: "http://github.com/GITHUB_USERNAME/esortcode/tree/master":http://github.com/GITHUB_USERNAME/esortcode/tree/master
+* github: "http://github.com/geoffgarside/esortcode/tree/master":http://github.com/geoffgarside/esortcode/tree/master
 
-<pre>git clone git://github.com/GITHUB_USERNAME/esortcode.git</pre>
-
-
-TODO - add "github_username: username" to ~/.rubyforge/user-config.yml and newgem will reuse it for future projects.
-
-
-* gitorious: "git://gitorious.org/esortcode/mainline.git":git://gitorious.org/esortcode/mainline.git
-
-<pre>git clone git://gitorious.org/esortcode/mainline.git</pre>
+<pre>git clone git://github.com/geoffgarside/esortcode.git</pre>
 
 h3. Build and test instructions
 
@@ -79,5 +71,5 @@ This code is free to use under the terms of the MIT license.
 
 h2. Contact
 
-Comments are welcome. Send an email to "FIXME full name":mailto:FIXME email via the "forum":http://groups.google.com/group/esortcode
+Comments are welcome. Send an email to "Geoff Garside":mailto:ruby@geoffgarside.co.uk or via "GitHub":http://github.com/geoffgarside
 
