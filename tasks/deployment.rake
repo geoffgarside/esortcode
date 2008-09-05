@@ -32,3 +32,10 @@ namespace :manifest do
     `rake check_manifest | patch -p0 > Manifest.txt`
   end
 end
+
+namespace :gemspec do
+  desc 'Regenerate the gemspec from hoe'
+  task :refresh do
+    `rake debug_gem > esortcode.gemspec`
+  end
+end
