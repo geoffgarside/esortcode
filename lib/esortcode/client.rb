@@ -4,6 +4,7 @@ module Esortcode
     
     base_uri 'https://ws.esortcode.com/bankdetails.asmx'
     default_params :sIPAddress => ''
+    format :xml
     
     # Creates an instance of the client.
     # 
@@ -28,7 +29,7 @@ module Esortcode
       validate_sort_code(sort_code)
       validate_account_number(account_number)
       
-      self.class.post('ValidateAccount',
+      do_send('/ValidateAccount',
         { :sSortcode => sort_code,
           :sAccountNumber => account_number})
     end
@@ -40,7 +41,7 @@ module Esortcode
     def branch_details(sort_code)
       validate_sort_code(sort_code)
       
-      self.class.post('BranchDetails', {:sSortcode => sort_code})
+      do_send('BranchDetails', {:sSortcode => sort_code})
     end
     
     # This function is used to transpose Non-standard 
@@ -55,7 +56,7 @@ module Esortcode
       validate_sort_code(sort_code)
       validate_account_number_flex(account_number)
       
-      self.class.post('StandardiseAccount',
+      do_send('StandardiseAccount',
         { :sSortcode => sort_code,
           :sAccountNumber => account_number})
     end
@@ -71,7 +72,7 @@ module Esortcode
       validate_sort_code(sort_code)
       validate_account_number_flex(account_number)
       
-      self.class.post('ValidateAccountGetBranchDetails',
+      do_send('ValidateAccountGetBranchDetails',
         { :sSortcode => sort_code,
           :sAccountNumber => account_number})
     end
@@ -83,11 +84,14 @@ module Esortcode
     def validate_credit_card(credit_card_number)
       validate_credit_card(credit_card_number)
       
-      self.class.post('ValidateCreditCard',
+      do_send('ValidateCreditCard',
         {:sCreditCardNumber => credit_card_number})
     end
     
     private
+      def do_send(path, options = {})
+        self.class.get(path, {:query => options})
+      end
       def validate_sort_code(sc)
         unless sc.match(/^[0-9]{6}$/)
           raise InvalidSortcode, "#{sc} is not valid"
