@@ -96,24 +96,26 @@ module Esortcode
     
     # This function is used to Validate a Credit Card Number.
     # 
-    # :call-seq: validate_credit_card(credit_card_number) -> (true|false)
+    # :call-seq: validate_credit_card(credit_card_number) -> (String|false)
+    # 
+    # The string returned is the card type which matches this number, it
+    # might also be UNKNOWN in which case the modulus check has passed,
+    # but the card type cannot be determined.
     # 
     # *Raises*
     # * InvalidCreditCardNumber if +credit_card_number+ is not valid.
     # * ResponseError with the error message if there was an error.
-    #--
-    # FIXME: The return type for this request is a CardType in the
-    # ValidationMessage field. We might want to change XMLResponse#valid?
-    # to check for INVALID instead of VALID.
-    # Once we know if its valid or not we then need to get the
-    # Card Type and return that.
-    #++
     def validate_credit_card(credit_card_number)
       validate_credit_card(credit_card_number)
       
       resp = get_response('ValidateCreditCard',
                 {:sCreditCardNumber => credit_card_number})
-      return resp.valid?
+      
+      if resp.valid?
+        return resp.reason  # In this case it is the CardType in caps
+      else
+        return false
+      end
     end
     
     private
