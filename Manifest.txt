@@ -10,6 +10,10 @@ lib/esortcode.rb
 lib/esortcode/client.rb
 lib/esortcode/errors.rb
 lib/esortcode/version.rb
+lib/esortcode/xml_response.rb
+lib/esortcode/xml_response/hpricot.rb
+lib/esortcode/xml_response/libxml.rb
+lib/esortcode/xml_response/rexml.rb
 script/console
 script/destroy
 script/generate
