@@ -101,6 +101,13 @@ module Esortcode
     # *Raises*
     # * InvalidCreditCardNumber if +credit_card_number+ is not valid.
     # * ResponseError with the error message if there was an error.
+    #--
+    # FIXME: The return type for this request is a CardType in the
+    # ValidationMessage field. We might want to change XMLResponse#valid?
+    # to check for INVALID instead of VALID.
+    # Once we know if its valid or not we then need to get the
+    # Card Type and return that.
+    #++
     def validate_credit_card(credit_card_number)
       validate_credit_card(credit_card_number)
       
