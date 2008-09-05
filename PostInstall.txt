@@ -1,7 +1,10 @@
+Esortcode Client will use REXML to parse web service
+responses. You can however increase the speed of
+parsing by installing either
 
-For more information on esortcode, see http://esortcode.rubyforge.org
+  * libxml-ruby >= 0.8.3
+  * hpricot >- 0.6.0
 
-NOTE: Change this information in PostInstall.txt 
-You can also delete it if you don't want it.
-
-
+and the client will use one of these instead. If
+libxml-ruby is installed it will take preference over
+hpricot.
