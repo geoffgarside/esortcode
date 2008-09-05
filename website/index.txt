@@ -8,6 +8,8 @@ h2. What
 An interface to the "eSortCode.com":http://www.esortcode.com UK bank and credit card
 validation service.
 
+WARNING: These docs apply to the currently in development release as I don't think anyone else is using this yet.
+
 h2. Installing
 
 <pre syntax="ruby">sudo gem install esortcode</pre>
