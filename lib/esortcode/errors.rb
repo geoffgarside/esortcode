@@ -1,7 +1,11 @@
 module Esortcode #:nodoc:
-  #:stopdoc:
-  class GeneralError < ::Exception; end
-  #:startdoc:
+  # Raised when the result of an eSortCode
+  # request returns an error value.
+  class ResponseError < ::Exception; end
+  
+  # :stopdoc:
+  class ResponseInvalid < ::Exception; end
+  # :startdoc:
   
   # A generic validation error, check the
   # message for the reason for this error

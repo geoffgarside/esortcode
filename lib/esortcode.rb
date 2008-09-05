@@ -4,3 +4,4 @@ $:.unshift(File.dirname(__FILE__)) unless
 require 'httparty'
 require 'esortcode/client'
 require 'esortcode/errors'
+require 'esortcode/xml_response'

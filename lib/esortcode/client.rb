@@ -22,41 +22,54 @@ module Esortcode
     
     # This function is used to Validate a UK Bank Sortcode and Account Number.
     # 
-    # If either +sort_code+ or +account_number+ are invalid an exception will
-    # be raised, they are +InvalidSortcode+ and +InvalidAccountNumber+
-    # respectively.
+    # :call-seq: validate_account(sort_code, account_number) -> (true|false)
+    # 
+    # *Raises*
+    # * InvalidSortcode if +sort_code+ is not valid
+    # * InvalidAccountNumber if +account_number+ is not valid
+    # * ResponseError with the error message if there was an eSortCode.com error
+    # 
+    #--
+    # Currently no way to access the reason why the details are invalid.
+    #++
     def validate_account(sort_code, account_number)
       validate_sort_code(sort_code)
       validate_account_number(account_number)
       
-      do_send('/ValidateAccount',
-        { :sSortcode => sort_code,
-          :sAccountNumber => account_number})
+      resp = get_response('/ValidateAccount',
+              { :sSortcode => sort_code,
+                :sAccountNumber => account_number})
+      return resp.valid?
     end
     
     # This function is used to return the Branch Details for a Sort Code.
     # 
-    # If +sort_code+ is invalid an exception +InvalidSortcode+ will be
-    # raised.
+    # *Raises*
+    # * InvalidSortcode if +sort_code+ is not valid
     def branch_details(sort_code)
       validate_sort_code(sort_code)
       
-      do_send('BranchDetails', {:sSortcode => sort_code})
+      resp = get_response('BranchDetails', {:sSortcode => sort_code})
+      
     end
     
     # This function is used to transpose Non-standard 
     # (i.e. 6, 7, 9 & 10 digit) Account Numbers into 
     # Standard (i.e. 8 digit) Account Numbers.
     # 
-    # If either +sort_code+ or +account_number+ are invalid an exception will
-    # be raised, they are +InvalidSortcode+ and +InvalidAccountNumber+
-    # respectively. The +InvalidAccountNumber+ is raised in the case that
-    # the +account_number+ is not 6 to 10 digits in length.
+    # *Raises*
+    # * InvalidSortcode if +sort_code+ is not valid
+    # * InvalidAccountNumber if +account_number+ is not valid
+    # 
+    #--
+    # Uses the +validate_account_number_flex method which checks
+    # to see if the account number is between 6 and 10 digits long.
+    #++
     def standardise_account(sort_code, account_number)
       validate_sort_code(sort_code)
       validate_account_number_flex(account_number)
       
-      do_send('StandardiseAccount',
+      get_response('StandardiseAccount',
         { :sSortcode => sort_code,
           :sAccountNumber => account_number})
     end
@@ -64,33 +77,43 @@ module Esortcode
     # This function incorporates the StandardiseAccount, ValidateAccount
     # and BranchDetails web services into one web service.
     # 
-    # If either +sort_code+ or +account_number+ are invalid an exception will
-    # be raised, they are +InvalidSortcode+ and +InvalidAccountNumber+
-    # respectively. The +InvalidAccountNumber+ is raised in the case that
-    # the +account_number+ is not 6 to 10 digits in length.
+    # *Raises*
+    # * InvalidSortcode if +sort_code+ is not valid
+    # * InvalidAccountNumber if +account_number+ is not valid
+    # 
+    #--
+    # Uses the +validate_account_number_flex method which checks
+    # to see if the account number is between 6 and 10 digits long.
+    #++
     def validate_account_get_branch_details(sort_code, account_number)
       validate_sort_code(sort_code)
       validate_account_number_flex(account_number)
       
-      do_send('ValidateAccountGetBranchDetails',
+      get_response('ValidateAccountGetBranchDetails',
         { :sSortcode => sort_code,
           :sAccountNumber => account_number})
     end
     
     # This function is used to Validate a Credit Card Number.
     # 
-    # If +credit_card_number+ is invalid an exception 
-    # +InvalidCreditCardNumber+ will be raised.
+    # :call-seq: validate_credit_card(credit_card_number) -> (true|false)
+    # 
+    # *Raises*
+    # * InvalidCreditCardNumber if +credit_card_number+ is not valid.
+    # * ResponseError with the error message if there was an error.
     def validate_credit_card(credit_card_number)
       validate_credit_card(credit_card_number)
       
-      do_send('ValidateCreditCard',
-        {:sCreditCardNumber => credit_card_number})
+      resp = get_response('ValidateCreditCard',
+                {:sCreditCardNumber => credit_card_number})
+      return resp.valid?
     end
     
     private
-      def do_send(path, options = {})
-        self.class.get(path, {:query => options})
+      def get_response(path, options = {})
+        resp = XMLResponse.new(self.class.get(path, {:query => options}))
+        raise ResponseError, resp.error_message if resp.error?
+        resp
       end
       def validate_sort_code(sc)
         unless sc.match(/^[0-9]{6}$/)
