@@ -1,7 +1,10 @@
-$:.unshift(File.dirname(__FILE__)) unless
-  $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
+require "esortcode/version"
 
 require 'httparty'
 require 'esortcode/client'
 require 'esortcode/errors'
 require 'esortcode/xml_response'
+
+module Esortcode
+  # Your code goes here...
+end
