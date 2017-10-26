@@ -120,7 +120,7 @@ module Esortcode
 
     private
       def get_response(path, options = {})
-        resp = XMLResponse.new(self.class.get(path, {:query => options}))
+        resp = Response.new(self.class.get(path, {:query => options}))
         raise ResponseError, resp.error_message if resp.error?
         resp
       end
