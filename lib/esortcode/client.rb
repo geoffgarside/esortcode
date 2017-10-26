@@ -5,7 +5,7 @@ module Esortcode
     base_uri 'https://ws.esortcode.com/bankdetails.asmx'
     default_params :sIPAddress => ''
     format :xml
-    
+
     # Creates an instance of the client.
     #
     # +account_name+::
@@ -49,7 +49,7 @@ module Esortcode
     def branch_details(sort_code)
       validate_sort_code(sort_code)
 
-      resp = get_response('BranchDetails', {:sSortcode => sort_code})
+      resp = get_response('/BranchDetails', {:sSortcode => sort_code})
 
     end
 
@@ -69,7 +69,7 @@ module Esortcode
       validate_sort_code(sort_code)
       validate_account_number_flex(account_number)
 
-      get_response('StandardiseAccount',
+      get_response('/StandardiseAccount',
         { :sSortcode => sort_code,
           :sAccountNumber => account_number})
     end
@@ -89,7 +89,7 @@ module Esortcode
       validate_sort_code(sort_code)
       validate_account_number_flex(account_number)
 
-      get_response('ValidateAccountGetBranchDetails',
+      get_response('/ValidateAccountGetBranchDetails',
         { :sSortcode => sort_code,
           :sAccountNumber => account_number})
     end
@@ -108,7 +108,7 @@ module Esortcode
     def validate_credit_card(credit_card_number)
       validate_credit_card(credit_card_number)
 
-      resp = get_response('ValidateCreditCard',
+      resp = get_response('/ValidateCreditCard',
                 {:sCreditCardNumber => credit_card_number})
 
       if resp.valid?
