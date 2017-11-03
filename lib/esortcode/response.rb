@@ -25,5 +25,9 @@ module Esortcode
     def error_message
       @response['ErrorMessage']
     end
+
+    def [](v)
+      @response[v.to_s]
+    end
   end
 end

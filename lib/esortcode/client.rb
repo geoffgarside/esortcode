@@ -36,10 +36,16 @@ module Esortcode
       validate_sort_code(sort_code)
       validate_account_number(account_number)
 
-      resp = get_response('/ValidateAccount',
+      @resp = get_response('/ValidateAccount',
               { :sSortcode => sort_code,
                 :sAccountNumber => account_number})
-      return resp.valid?
+      @resp.valid?
+    rescue ResponseError => ex
+      if ex.message =~ /sortcode cannot found/
+        raise InvalidSortcode.new(ex.message, sort_code)
+      else
+        raise
+      end
     end
 
     # This function is used to return the Branch Details for a Sort Code.
@@ -49,8 +55,7 @@ module Esortcode
     def branch_details(sort_code)
       validate_sort_code(sort_code)
 
-      resp = get_response('/BranchDetails', {:sSortcode => sort_code})
-
+      @resp = get_response('/BranchDetails', {:sSortcode => sort_code})
     end
 
     # This function is used to transpose Non-standard
@@ -69,7 +74,7 @@ module Esortcode
       validate_sort_code(sort_code)
       validate_account_number_flex(account_number)
 
-      get_response('/StandardiseAccount',
+      @resp = get_response('/StandardiseAccount',
         { :sSortcode => sort_code,
           :sAccountNumber => account_number})
     end
@@ -89,7 +94,7 @@ module Esortcode
       validate_sort_code(sort_code)
       validate_account_number_flex(account_number)
 
-      get_response('/ValidateAccountGetBranchDetails',
+      @resp = get_response('/ValidateAccountGetBranchDetails',
         { :sSortcode => sort_code,
           :sAccountNumber => account_number})
     end
@@ -108,11 +113,11 @@ module Esortcode
     def validate_credit_card(credit_card_number)
       validate_credit_card(credit_card_number)
 
-      resp = get_response('/ValidateCreditCard',
+      @resp = get_response('/ValidateCreditCard',
                 {:sCreditCardNumber => credit_card_number})
 
-      if resp.valid?
-        return resp.reason  # In this case it is the CardType in caps
+      if @resp.valid?
+        return @resp.reason  # In this case it is the CardType in caps
       else
         return false
       end
@@ -121,27 +126,27 @@ module Esortcode
     private
       def get_response(path, options = {})
         resp = Response.new(self.class.get(path, {:query => options}))
-        raise ResponseError, resp.error_message if resp.error?
+        raise ResponseError.new(resp.error_message, resp) if resp.error?
         resp
       end
       def validate_sort_code(sc)
         unless sc.match(/^[0-9]{6}$/)
-          raise InvalidSortcode, "#{sc} is not valid"
+          raise InvalidSortcode.new("#{sc} is not valid", sc)
         end
       end
       def validate_account_number(an)
         unless an.match(/^[0-9]{8}$/)
-          raise InvalidAccountNumber, "#{an} is not valid"
+          raise InvalidAccountNumber.new("#{an} is not valid", an)
         end
       end
       def validate_account_number_flex(an)
         unless an.match(/^[0-9]{6,10}$/)
-          raise InvalidAccountNumber, "#{an} is not valid"
+          raise InvalidAccountNumber.new("#{an} is not valid", an)
         end
       end
       def validate_credit_card(cc)
         unless cc.match(/[0-9]+/)
-          raise InvalidCreditCardNumber, "#{cc} is not valid"
+          raise InvalidCreditCardNumber.new("#{cc} is not valid", cc)
         end
       end
   end
