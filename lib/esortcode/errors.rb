@@ -3,7 +3,7 @@ module Esortcode #:nodoc:
   # request returns an error value.
   class ResponseError < RuntimeError
     attr_reader :response
-    def initialize(msg, response)
+    def initialize(msg = nil, response = nil)
       super(msg)
       @response = response
     end
@@ -19,7 +19,7 @@ module Esortcode #:nodoc:
   # else will result in this error being raised.
   class InvalidSortcode < RuntimeError
     attr_reader :sort_code
-    def initialize(msg, sort_code)
+    def initialize(msg = nil, sort_code = nil)
       super(msg)
       @sort_code = sort_code
     end
@@ -30,7 +30,7 @@ module Esortcode #:nodoc:
   # eight digits.
   class InvalidAccountNumber < RuntimeError
     attr_reader :account_number
-    def initialize(msg, account_number)
+    def initialize(msg = nil, account_number = nil)
       super(msg)
       @account_number = account_number
     end
@@ -41,7 +41,7 @@ module Esortcode #:nodoc:
   # is composed of digits.
   class InvalidCreditCardNumber < RuntimeError
     attr_reader :card_number
-    def initialize(msg, card_number)
+    def initialize(msg = nil, card_number = nil)
       super(msg)
       @card_number = card_number
     end
